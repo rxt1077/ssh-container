@@ -4,7 +4,7 @@
 
 The purpose of this lab is to familiarize yourself with using
 [nftables](https://wiki.nftables.org/wiki-nftables/index.php/What_is_nftables%3F)
-to filter ports in Linux. nftables has replaced ipchains and iptables, but if
+to filter ports in Linux. nftables has replaced ipchains and iptables but if
 you are familiar with either of those utilities nftables is very similar.
 
 ## General Setup
@@ -35,23 +35,22 @@ to the port and log access attempts.
 
 Choose one of your terminals to be the compromised server and execute the
 following command on it. You only need to type what is *after* the # prompt.
-Note the <IP_ADDRESS> that is shown in your prompt. From now on, this
-will be refered to as the compromised server's ip address.
+Note the IP_ADDRESS that is shown in your prompt. From now on this will be
+refered to as the compromised server's ip address.
 
 ```console
-root@<IP_ADDRESS>:~# nc -l -p 8888 -e /bin/sh &
+root@IP_ADDRESS:~# nc -l -p 8888 -e /bin/sh &
 ```
 
 This runs a shell in the background that listens on port 8888.
 
 ## Scanning / Accessing the Compromised Server
 
-In the other terminal, not the terminal where you executed the previous
-commands, run the following command. Substitute the compromised server's ip
-address for <COMPROMISED_SERVERS_IP>.
+In the other terminal run the following command. Substitute the compromised
+server's ip address for COMPROMISED_SERVERS_IP.
 
 ```console
-root@<IP_ADDRESS>:~# nmap <COMPROMISED_SERVERS_IP>
+root@IP_ADDRESS:~# nmap COMPROMISED_SERVERS_IP
 ```
 nmap is a security scanner that will default to scanning common ports on a
 host. Examine the output of the command. Which ports are open?
@@ -60,7 +59,7 @@ Lets now confirm that we can access a remote shell on the compromised server
 using netcat. Enter the following command:
 
 ```console
-root@<IP_ADDRESS>:~# nc <COMPROMISED_SERVERS_IP> 8888
+root@IP_ADDRESS:~# nc COMPROMISED_SERVERS_IP 8888
 ```
 
 You will not see a prompt, but you should now be connected to a root shell. Try
@@ -78,7 +77,7 @@ a persistent remote shell is out of the scope of this lab, so instead we will
 simply restart it. On the compromised server execute the following command:
 
 ```console
-root@<IP_ADDRESS>:~# nc -l -p 8888 -e /bin/sh &
+root@IP_ADDRESS:~# nc -l -p 8888 -e /bin/sh &
 ```
 
 Now we will become more acquianted with using netfilter's tables. On the
@@ -86,7 +85,7 @@ compromised server, run `nft list tables`. This command will show you all of the
 tables`. On your container there should only be one, *inet filter*. This table
 filters packets at layer 3 (inet).
 
-Let's examine the *chains* and rules in *inet filter*. Run
+Let's examine the *chains* and *rules* in *inet filter*. Run
 `nft list table inet filter`. You should see three chains: *input*, *forward*,
 and *output*. Each of those chains has a default policy of *accept*.
 
@@ -96,7 +95,7 @@ adding a rule to the *input* chain. Type in the following command to add a rule
 to log and drop all packets sent to port 8888:
 
 ```console
-nroot@<IP_ADDRESS>:~# nft add rule inet filter input tcp dport 8888 log group 0 drop
+nroot@IP_ADDRESS:~# nft add rule inet filter input tcp dport 8888 log group 0 drop
 ``` 
 
 Before we procede, let's take a moment to understand what each of these
@@ -116,7 +115,7 @@ We can view the current state of the *inet filter* table with the following
 command:
 
 ```console
-root@<IP_ADDRESS>:~# nft list table inet filter
+root@IP_ADDRESS:~# nft list table inet filter
 table inet filter {
         chain input {
                 type filter hook input priority 0; policy accept;
@@ -138,7 +137,7 @@ table inet filter {
 On the other terminal, run nmap again to scan your server:
  
 ```console
-root@<IP_ADDRESS>:~# nmap <COMPROMISED_SERVERS_IP>
+root@IP_ADDRESS:~# nmap COMPROMISED_SERVERS_IP
 ```
 
 You should see that port 8888 is now filtered. nmap scans ports using SYN
@@ -150,7 +149,7 @@ filtered.
 Now run the netcat command again to see if you can connect:
 
 ```console
-root@<IP_ADDRESS>:~# nc <COMPROMISED_SERVERS_IP> 8888
+root@IP_ADDRESS:~# nc COMPROMISED_SERVERS_IP 8888
 ```
 
 This command should time out eventually, demonstrating that a connection can no
@@ -162,7 +161,7 @@ On the compromised server we are going to examine the log file to see if we can
 see the traffic from our test. Run the following command:
 
 ```console
-root@<IP_ADDRESS>:~# cat /var/log/ulog/syslogemu.log
+root@IP_ADDRESS:~# cat /var/log/ulog/syslogemu.log
 Oct  8 22:10:19 ssh-container-kld16d0k  IN=eth0 OUT= MAC=00:16:3e:b3:b2:53:00:16:3e:d8:ea:49:08:00 SRC=10.8.100.136 DST=10.8.100.95 LEN=60 TOS=00 PREC=0x00 TTL=64 ID=30956 DF PROTO=TCP SPT=60268 DPT=8888 SEQ=701156108 ACK=0 WINDOW=64240 SYN URGP=0 MARK=0
 Oct  8 22:10:53 ssh-container-kld16d0k  IN=eth0 OUT= MAC=00:16:3e:b3:b2:53:00:16:3e:d8:ea:49:08:00 SRC=10.8.100.136 DST=10.8.100.95 LEN=60 TOS=00 PREC=0x00 TTL=64 ID=30957 DF PROTO=TCP SPT=60268 DPT=8888 SEQ=701156108 ACK=0 WINDOW=64240 SYN URGP=0 MARK=0
 ```
