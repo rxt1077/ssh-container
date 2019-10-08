@@ -36,7 +36,7 @@ to the port and log access attempts.
 Choose one of your terminals to be the compromised server and execute the
 following command on it. You only need to type what is *after* the # prompt.
 Note the IP_ADDRESS that is shown in your prompt. From now on this will be
-refered to as the compromised server's ip address.
+referred to as the compromised server's ip address.
 
 ```console
 root@IP_ADDRESS:~# nc -l -p 8888 -e /bin/sh &
@@ -66,7 +66,7 @@ You will not see a prompt, but you should now be connected to a root shell. Try
 typing `ps ax` to see the currently running processes. Now type `whoami` to
 confirm that you are root. Finally type `exit` to leave.
 
-Netcat is a good tool to be familiar with as it is the "swiss army knife" of
+Netcat is a good tool to be familiar with as it is the "Swiss army knife" of
 TCP/UDP connections. If you need to test a connection, chances are you can do
 it with netcat.
 
@@ -80,7 +80,7 @@ simply restart it. On the compromised server execute the following command:
 root@IP_ADDRESS:~# nc -l -p 8888 -e /bin/sh &
 ```
 
-Now we will become more acquianted with using netfilter's tables. On the
+Now we will become more acquainted with using netfilter's tables. On the
 compromised server, run `nft list tables`. This command will show you all of the
 tables`. On your container there should only be one, *inet filter*. This table
 filters packets at layer 3 (inet).
