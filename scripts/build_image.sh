@@ -16,7 +16,7 @@ lxc exec ssh-container -- apt-get -y update
 lxc exec ssh-container -- apt-get -y upgrade
 lxc exec ssh-container -- apt-get -y autoremove
 lxc file push ../configs/container-bashrc ssh-container/root/.bashrc
-lxc exec ssh-container -- apt-get -y install netcat-traditional nftables
+lxc exec ssh-container -- apt-get -y install netcat-traditional nftables nmap ulogd2
 lxc stop ssh-container
 lxc publish ssh-container --alias ssh-container
 lxc delete ssh-container
