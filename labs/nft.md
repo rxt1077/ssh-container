@@ -13,7 +13,7 @@ This lab will require two terminal sessions running on separate containers
 within the same network. To set it up:
 
 1. Patch your lab machine's 2nd NIC to the switch above the virtualization
-   server on *Rack 4*. This switch is labeled *Switch 17*. 
+   server on *Rack 1*. This switch is labeled *Switch 17*. 
 2. Open a terminal on your lab computer and confirm that you can ping
    `10.8.100.30`.
 3. Within that same terminal, ssh to the container service on the
