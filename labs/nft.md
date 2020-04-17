@@ -12,17 +12,22 @@ you are familiar with either of those utilities nftables is very similar.
 This lab will require two terminal sessions running on separate containers
 within the same network. To set it up:
 
-1. Patch your lab machine's 2nd NIC to the switch above the virtualization
-   server on *Rack 1*. This switch is labeled *Switch 17*. 
-2. Open a terminal on your lab computer and confirm that you can ping
-   `10.8.100.30`.
-3. Within that same terminal, ssh to the container service on the
-   virtualization server with the following command: `ssh container@10.8.100.30`.
-   If prompted to accept a key, type `y`. When prompted for a password, type in
-   `container` and hit enter. This will not be echoed on your display.
-4. Repeat Step 3 with another terminal.
-5. You should now have shells on two containers each on the same network. Their
-   assigned IP addresses are shown in their respective bash prompts.
+1. Connect to the ssh-container network, this can be done locally (in class)
+or remotely (from home):
+    * Locally: Patch your lab machine's 2nd NIC to the switch above the
+    virtualization server on *Rack 1*. This switch is labeled *Switch 17*.
+    Open a terminal on your lab computer and confirm that you can ping
+    `10.8.100.30`.
+    * Remotely: [Use Cisco Anyconnect Secure Mobility client to connect to the NJIT VPN from home.](https://ist.njit.edu/vpn/)
+2. From within terminal or powershell use ssh to connect to the container
+service in the lab:
+    * Locally: `ssh container@10.8.100.30`
+    * Remotely: `ssh container@virt.duckdns.org`
+3.  If prompted to accept a key, type `y`. When prompted for a password, type in
+`container` and hit enter. This will not be echoed on your display.
+4. Repeat Steps 3 and 4 with another terminal / powershell.
+5. You should now have two shells on two containers each on the same network.
+Their assigned IP addresses are shown in their respective bash prompts.
 
 ## Scenario
 
