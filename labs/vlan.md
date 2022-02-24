@@ -5,9 +5,12 @@ see what traffic traverses them.
 
 ## Test Network Setup
 
+Patch your lab machine's 2nd NIC to the switch above the virtualization server on *Rack 1*.
+This switch is labeled *Switch 17*.
+
 We will be using two containers each running on the same segment. Open *two*
 command windows and inside each one, run the following command: 
-`ssh container@virt.duckdns.org`. The password is `container`. You can see the
+`ssh container@10.8.100.30`. The password is `container`. You can see the
 IP address each container has been given in the prompt:
 `root@IP_ADDRESS:~#` where `IP_ADDRESS` is your IP address.
 

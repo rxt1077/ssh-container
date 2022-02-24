@@ -18,11 +18,9 @@ or remotely (from home):
     virtualization server on *Rack 1*. This switch is labeled *Switch 17*.
     Open a terminal on your lab computer and confirm that you can ping
     `10.8.100.30`.
-    * Remotely: [Use Cisco Anyconnect Secure Mobility client to connect to the NJIT VPN from home.](https://ist.njit.edu/vpn/)
 2. From within terminal or powershell use ssh to connect to the container
 service in the lab:
     * Locally: `ssh container@10.8.100.30`
-    * Remotely: `ssh container@virt.duckdns.org`
 3.  If prompted to accept a key, type `y`. When prompted for a password, type in
 `container` and hit enter. This will not be echoed on your display.
 4. Repeat Steps 3 and 4 with another terminal / powershell.
